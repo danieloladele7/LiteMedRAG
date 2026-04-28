@@ -1,0 +1,7 @@
+cff-version: 1.2.0
+title: "Compact Retrieval-Augmented Medical Vision-Language Question Answering with Compact Models"
+message: "If you use this repository, please cite the associated paper. Final archival citation: TODO after review/publication."
+authors:
+  - family-names: "TODO"
+    given-names: "TODO"
+version: 0.1.0
