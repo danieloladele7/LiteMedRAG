@@ -2,6 +2,8 @@
 
 Reference implementation for **LiteMedRAG: Selective Retrieval-Augmented Compact Medical Visual Question Answering** (MIWAI 2026, Paper 157).
 
+![LiteMedRAG](./LiteMedRAG.png)
+
 ## Install
 
 ```bash
