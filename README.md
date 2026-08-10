@@ -1,92 +1,48 @@
-# Compact Retrieval-Augmented Medical Vision-Language Question Answering with Compact Models
+# LiteMedRAG
 
-This repository is the official repository for the study on compact retrieval-augmented medical VQA. Medical VQA models can benefit from retrieval, but in low-resource settings the trade-off between answer accuracy, grounding quality, latency, and memory footprint remains underexplored. This repository implements a compact retrieval-augmented MedVQA pipeline built around a frozen biomedical encoder, lightweight hybrid routing, answer-aware candidate retrieval, and three evaluation settings: a compact model without retrieval, a text-retrieval variant, and a multimodal-retrieval variant. Experiments were conducted on SLAKE and ImageCLEF VQA-Med 2019. The results, showed that **text retrieval** provides the most reliable accuracy-efficiency trade-off.
+Reference implementation for **LiteMedRAG: Selective Retrieval-Augmented Compact Medical Visual Question Answering** (MIWAI 2026, Paper 157).
 
-## Repository structure
-
-```text
-compact_medvqa_codebase/
-├── README.md
-├── requirements.txt
-├── pyproject.toml
-├── CITATION.cff
-├── configs/
-│   └── default.json
-├── docs/
-│   └── RUN_MODES.md
-├── results/
-│   ├── csv/
-│   └── figures/
-├── scripts/
-│   ├── full_run.py
-│   ├── continue_run.py
-│   ├── run_full.sh
-│   └── run_continue.sh
-└── src/compact_medvqa/
-    ├── __init__.py
-    └── pipeline.py
-```
-
-## Installation
+## Install
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
-export PYTHONPATH="$(pwd)/src:${PYTHONPATH}"
+pip install -e .
 ```
 
-## Running the code
+The first real run downloads the frozen BioMedCLIP backbone and the public dataset files from Hugging Face. A GPU is recommended for embedding extraction and head training.
 
-### Full run
+## Run
 
 ```bash
-python scripts/full_run.py
+./run.sh smoke      # CPU-only synthetic sanity check
+./run.sh slake      # SLAKE
+./run.sh imageclef  # ImageCLEF VQA-Med 2019
+./run.sh all        # both datasets
 ```
 
-### Continue / replay run using caches and checkpoints
+Outputs are written to `artifacts/`:
 
-```bash
-python scripts/continue_run.py --datasets slake imageclef_vqa_med_2019
-```
+- `csv/main_metrics.csv`
+- `csv/predictions_<dataset>_<variant>.csv`
+- `csv/policy_<dataset>_<variant>.json`
+- `checkpoints/`
+- `tables/main_results.tex`
+- `figures/accuracy_support.pdf`
 
-### Skip heavier stages during iteration
+## Paper configuration
 
-```bash
-python scripts/continue_run.py --skip-ablations --skip-robustness --skip-figures
-```
+The backbone is frozen BioMedCLIP. The compact heads use hidden size 256, dropout 0.15, AdamW (`lr=1e-3`, `weight_decay=1e-4`), batch size 128, at most 60 epochs, patience 10, and seed 42. Text retrieval uses the top 5 question neighbours. Multimodal retrieval uses the top 1 neighbour with equal image/question weighting.
 
-<!-- ## Main results -->
-<!---->
-<!-- | Dataset                |  Variant | Accuracy | Closed Acc. | Open Acc. | Support Rate | Unsupported Rate | Single Model MB | Cached Latency ms | -->
-<!-- | ---------------------- | -------: | -------: | ----------: | --------: | -----------: | ---------------: | --------------: | ----------------: | -->
-<!-- | imageclef_vqa_med_2019 |     base |    0.556 |       0.704 |     0.112 |        0.548 |            0.326 |            9.52 |             0.708 | -->
-<!-- | imageclef_vqa_med_2019 | text_rag |    0.590 |       0.755 |     0.096 |        0.620 |            0.252 |            9.78 |             2.990 | -->
-<!-- | imageclef_vqa_med_2019 |   mm_rag |    0.582 |       0.741 |     0.104 |        0.850 |            0.120 |            9.52 |            38.868 | -->
-<!-- | slake                  |     base |    0.803 |       0.872 |     0.708 |        0.827 |            0.086 |            9.27 |             0.719 | -->
-<!-- | slake                  | text_rag |    0.843 |       0.890 |     0.778 |        0.880 |            0.030 |            9.28 |             1.342 | -->
-<!-- | slake                  |   mm_rag |    0.262 |       0.213 |     0.330 |        0.366 |            0.634 |            9.27 |            12.113 | -->
-<!---->
-
-## Outputs
-
-By default the pipeline writes to:
-
-- `./artifacts/csv/`
-- `./artifacts/figures/`
-- `./artifacts/tables/`
-- `./artifacts/json/`
-- `./artifacts/checkpoints/`
-- `./cache/`
+The final `LiteMedRAG-Acc` and `LiteMedRAG-Ground` policies are the validation-selected settings reported in the accepted manuscript and are stored in `src/litemedrag/pipeline.py`; they are frozen before test evaluation. Confidence is the uncalibrated Base maximum-softmax score and is never compared across independently trained heads. Retrieval Support Rate is exact normalized lexical agreement with retrieved support answers and is not a clinical-grounding metric.
 
 ## Citation
 
 ```bibtex
-% TODO: replace with final paper metadata
-@inproceedings{TODO_icig2026_LiteMedRAG,
-  title={LiteMedRag: Compact Retrieval-Augmented Medical Vision-Language Question Answering with Compact Models,
-  author={TODO},
-  booktitle={International Conference on Image and Graphics (ICIG)},
+@inproceedings{Oladele_LiteMedRAG,
+  title={LiteMedRag: Selective Retrieval-Augmented Compact Medical Visual Question Answering,
+  author={Daniel Ayo, Oladele and Malusi Sibiya},
+  booktitle={The 19th International Conference on Multi-disciplinary Trends in Artificial Intelligence (MIWAI)},
   year={2026}
 }
 ```

@@ -1,0 +1,31 @@
+{
+  "seed": 42,
+  "device": "auto",
+  "embedding_batch_size_image": 12,
+  "embedding_batch_size_text": 64,
+  "retrieval_chunk": 256,
+  "answer_space": {
+    "closed_min_freq": 1,
+    "closed_topn": 220,
+    "add_unk": true
+  },
+  "retrieval": {
+    "text_topk": 5,
+    "mm_topk": 1,
+    "mm_image_weight": 0.5,
+    "mm_question_weight": 0.5,
+    "copy_conf_threshold": 0.35,
+    "exclude_self_on_train": true
+  },
+  "training": {
+    "epochs": 60,
+    "patience": 10,
+    "batch_size": 128,
+    "lr": 0.001,
+    "weight_decay": 0.0001
+  },
+  "model": {
+    "hidden": 256,
+    "dropout": 0.15
+  }
+}

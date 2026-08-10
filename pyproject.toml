@@ -1,16 +1,26 @@
 [build-system]
-requires=["setuptools>=68","wheel"]
-build-backend="setuptools.build_meta"
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
-name="compact-medvqa-rag"
-version="0.1.0"
-description="Compact retrieval-augmented medical VQA codebase derived from the v5 working notebook"
-readme="README.md"
-requires-python=">=3.10"
+name = "litemedrag"
+version = "1.0.0"
+description = "LiteMedRAG reference implementation for MIWAI 2026 paper 157"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "numpy>=1.24",
+  "pandas>=2.0",
+  "torch>=2.1",
+  "torchvision>=0.16",
+  "open_clip_torch==2.23.0",
+  "transformers==4.35.2",
+  "datasets>=2.16",
+  "Pillow>=10.0",
+  "matplotlib>=3.7"
+]
 
-[tool.setuptools]
-package-dir={""="src"}
+[project.scripts]
+litemedrag = "litemedrag.pipeline:cli"
 
 [tool.setuptools.packages.find]
-where=["src"]
+where = ["src"]
