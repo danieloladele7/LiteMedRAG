@@ -41,10 +41,12 @@ The final `LiteMedRAG-Acc` and `LiteMedRAG-Ground` policies are the validation-s
 ## Citation
 
 ```bibtex
-@inproceedings{Oladele_LiteMedRAG,
-  title={LiteMedRag: Selective Retrieval-Augmented Compact Medical Visual Question Answering,
-  author={Daniel Ayo, Oladele and Malusi Sibiya},
-  booktitle={The 19th International Conference on Multi-disciplinary Trends in Artificial Intelligence (MIWAI)},
-  year={2026}
+@inproceedings{oladele2026_LiteMedRAG,
+  title     = {LiteMedRag: Selective Retrieval-Augmented Compact Medical Visual Question Answering,
+  author    = {Daniel Ayo, Oladele and Malusi Sibiya},
+  booktitle = {The 19th International Conference on Multi-disciplinary Trends in Artificial Intelligence (MIWAI) 2026},
+  series    = {Lecture Notes in Artificial Intelligence},
+  publisher = {Springer},
+  year      = {2026}
 }
 ```
