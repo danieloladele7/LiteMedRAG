@@ -40,6 +40,8 @@ The final `LiteMedRAG-Acc` and `LiteMedRAG-Ground` policies are the validation-s
 
 ## Citation
 
+If you use this codebase, please cite the associated manuscript:
+
 ```bibtex
 @inproceedings{oladele2026_LiteMedRAG,
   title     = {LiteMedRag: Selective Retrieval-Augmented Compact Medical Visual Question Answering,
